@@ -154,6 +154,10 @@ class Game extends SocketIO {
       this.isLoading = false
   
       this.refresh(this.toObject(true))
+
+      if (this.__questions.length < this.rounds) {
+        this.completeQuestions()
+      }
     }
   }
 
@@ -175,13 +179,23 @@ class Game extends SocketIO {
   nextRound() {
     if (this.round < this.rounds) {
       this.__question = this.__questions[this.round]
-      const { answer, ...q } = this.__question
-      this.question = q
-      this.answer = null
-      
-      this.round += 1
-      this.resetTimer()
-      this.roomMessage(`Round "${this.round}" started!`, 'info')
+
+      if (this.__question) {
+        const { answer, ...q } = this.__question
+        this.question = q
+        this.answer = null
+        
+        this.round += 1
+        this.resetTimer()
+        this.roomMessage(`Round "${this.round}" started!`, 'info')
+      }
+      else {
+        // retry again
+        this.resetTimer()
+        this.roomMessage(`Round "${this.round}" is loading..!`, 'warning')
+        setTimeout(() => { this.nextRound() }, 2000)
+      }
+
     }
     else {
       this.endGame()
@@ -203,38 +217,6 @@ class Game extends SocketIO {
 
     this.roomMessage(`Round "${this.round}" ended!`, 'success')
     this.refresh(this.__roomInstance.toObject())
-  }
-
-  /**
-   * calculate players scoring in current round
-   * 
-   */
-  setPlayersScoreInRound() {
-    // get in game players
-    this.__roomInstance.getInGamePlayers()
-
-    // filter players that didn't submit an answer
-    .filter(p => p.hasAnswered)
-
-    // loop and calculate
-    .forEach((player, _, players) => {
-      const total = players.length
-
-      // if he answered right
-      if (player.__answer === this.answer.id) {
-        // add plus score points
-        player.setScoreInRound(total - player.__answerOrder)
-      }
-
-      // if he answered wrong
-      else {
-        // add minus score points
-        player.setScoreInRound(-1)
-      }
-
-      // clear player answer
-      player.clearAnswer()
-    })
   }
 
   /**
@@ -291,7 +273,7 @@ class Game extends SocketIO {
    * @param {Integer} from count down starting from
    * 
    */
-  resetTimer(from = 15) {
+  resetTimer(from = process.env.ROUND_COUNTER_FROM) {
     this.counter = from
     this.clearTimer()
     this.__timer = setInterval(this.handleTimer.bind(this), 1000)

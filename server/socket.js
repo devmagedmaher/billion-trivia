@@ -59,6 +59,23 @@ module.exports = io => {
       }
 
       /**
+       * ChangeGameData: handle change game data event
+       * 
+       * @param {String} gameName game data
+       */
+      function handleChangeGameDataEvent(gameData) {
+        Utils.tryCatch(() => {
+          console.log(`player: ${name} changed game data`)
+          r.changeGameData(gameData)
+        },
+        e => {
+          console.error('[ERROR][SOCKET]', e)
+          sendMessage('self', 'Oops, something wrong occurred on the server.', 'error')
+          socket.disconnect()
+        })
+      }
+
+      /**
        * StartGame: handle start game event
        * 
        */
@@ -111,6 +128,7 @@ module.exports = io => {
        */
       socket.on('enterGame', handleEnterGameEvent)
       socket.on('changeGame', handleChangeGameEvent)
+      socket.on('changeGameData', handleChangeGameDataEvent)
       socket.on('startGame', handleStartGameEvent)
       socket.on('submitAnswer', handleSubmitAnswerEvent)
       socket.on('disconnect', handleDisconnectEvent)

@@ -10,6 +10,7 @@ import { useMediaQuery } from '@mantine/hooks'
 import { useRoom } from '.'
 import PlayersList from './playersList'
 import GamesList from './gamesList'
+import GameInput from './gameInput'
 
 const LobbyStage = () => {
   const theme = useMantineTheme()
@@ -24,6 +25,12 @@ const LobbyStage = () => {
   const handleOnGameChange = (name) => {
     if (isAdmin) {
       socket.emit('changeGame', name)
+    }
+  }
+
+  const handleOnInputChange = (data) => {
+    if (isAdmin) {
+      socket.emit('changeGameData', data)
     }
   }
 
@@ -56,6 +63,8 @@ const LobbyStage = () => {
         </Text>
 
         <GamesList onChange={handleOnGameChange} />
+
+        {isAdmin && game.name ? <GameInput onChange={handleOnInputChange} /> : null}
 
         {isAdmin ? <Button 
           onClick={handleStartGame}

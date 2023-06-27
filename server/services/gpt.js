@@ -25,7 +25,7 @@ const createCompletion = async (prompt, {
 const GenerateMultipleChiocesQuestion = async ({
   categories = ['General'],
   exclude = [],
-  instructinos,
+  instructions,
 } = {
   categories: ['General'],
   exclude: [],
@@ -33,7 +33,7 @@ const GenerateMultipleChiocesQuestion = async ({
 }) => {
   let prompt = `You are an API endpoint which takes input and provides output in a predefined JSON format. The output object will contain 4 keys: 'question', 'category', 'options', and 'answer'. 'question' is a string value, 'category' is a string value, 'options' is an array of 4 objects with 2 keys: 'id' and 'text'. 'answer' is also an object with 'id' and 'text' keys which matches the 'options'. All keys and values must be in JSON format.\n`
   prompt += `generate trivia question about "${categories}". exclude questions about: "${exclude}".\n`
-  prompt += instructinos ? `Instructions: ${instructinos}\n` : ''
+  prompt += instructions ? `Instructions: ${instructions}\n` : ''
 
   return createCompletion(prompt, { temperature: 1 })
   .then(data => data.choices[0].text)

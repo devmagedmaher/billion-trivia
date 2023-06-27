@@ -359,6 +359,31 @@ class Room extends SocketIO {
   }
 
   /**
+   * change room game data
+   * 
+   * @param {String} name game name
+   * 
+   * @return {Game}
+   */
+  changeGameData(data) {
+    const { categories = '', instructions } = data || {}
+
+    // update game info
+    this.game.categories = categories || 'General Questions'
+    this.game.instructions = instructions
+
+    this.refresh(this.toObject())
+
+    const admin = this.getAdmin()
+    if (admin) {
+      admin.selfMessage(`You have changed "${this.game.name}" game data`, 'info')
+      admin.castMessage(`${admin.name} has changed "${this.game.name}" game data`, 'info')
+    }
+
+    return this.game
+  }
+
+  /**
    * submit answer to the current question for a player
    * 
    * @param {String} id player id

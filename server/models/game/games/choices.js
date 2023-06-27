@@ -12,6 +12,20 @@ class ChoicesGame extends Game {
   static __isActive = true
 
   /**
+   * categories of the questions
+   * 
+   * @type {String}
+   */
+  categories = 'General Questions'
+
+  /**
+   * instruections for AI
+   * 
+   * @type {String}
+   */
+  instructions
+
+  /**
    * Init game
    */
   constructor(props) {
@@ -25,7 +39,9 @@ class ChoicesGame extends Game {
    */
   async buildRounds(retry = true) {
     try {
-      const data = await gpt.GenerateMultipleChiocesQuestion({ categories: ['Politics', 'Geography'], instructinos: 'extremely hard questions' })
+      const categories = this.categories.split(',')
+      const instructions = this.instructions
+      const data = await gpt.GenerateMultipleChiocesQuestion({ categories, instructions })
 
       const q = this.buildQuestion(data)
       this.__questions.push(q)
@@ -60,7 +76,6 @@ class ChoicesGame extends Game {
       category,
     }
   }
-
 
   /**
    * complete one more question

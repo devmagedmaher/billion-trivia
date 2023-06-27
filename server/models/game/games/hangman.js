@@ -9,7 +9,7 @@ class FlagsGame extends Game {
    * 
    * @type {Boolean}
    */
-  static __isActive = true
+  static __isActive = false
 
   /**
    * Init game

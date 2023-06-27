@@ -9,6 +9,8 @@ import Messages from './messages'
 import { Center, Grid, Stack } from '@mantine/core'
 import FullScreenButton from '../fullScreenButton'
 
+const SOCKET_URL = process.env.NODE_ENV === 'production' ? '/' : 'http://192.168.1.97:3004/'
+
 const RoomContext = React.createContext({
   setStage: () => false,
   status: null,
@@ -31,8 +33,7 @@ const Room = (props) => {
   const [me, setMe] = React.useState()
   const [messages, setMessages] = React.useState([])
 
-  // const socketRef = React.useRef(io('http://192.168.121.254:5000', {
-  const socketRef = React.useRef(io('http://localhost:5000', {
+  const socketRef = React.useRef(io(SOCKET_URL, {
     autoConnect: false,
     query: {
       room: props.room,

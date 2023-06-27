@@ -27,7 +27,7 @@ const GameStage = () => {
     <Container>
       <Stack>
         <Title order={1} align="center">{game.countDown}</Title>
-        <Title order={3} align="center">Wait for Chef recipe</Title>
+        <Title order={3} align="center">Wait for The Billionaire</Title>
       </Stack>
     </Container>
   )

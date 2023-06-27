@@ -22,7 +22,7 @@ const Logo = () => {
 
   return (
     <div className={classes.logo}>
-      <Image src={logo} alt="Chef Recipe" />
+      <Image src={logo} alt="The Bilionaire" />
     </div>
   )
 }
@@ -40,7 +40,7 @@ const FullSizeLogo = ({ animation = true }) => {
     </Box>
   ) : (
     <div className={classes.fullSizeLogo}>
-      <Image src={logo} radius={10} alt="Chef Recipe" />
+      <Image src={logo} radius={10} alt="The Billionaire" />
     </div>
   )
 }

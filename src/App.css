@@ -1,0 +1,56 @@
+
+body {
+  background-color: #282c34;
+  min-height: 100%;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+#root {
+  background-color: #282c34;
+}
+
+  
+@media (prefers-reduced-motion: no-preference) {
+  .horizontal-animation {
+    animation: App-logo-horizontal-movement infinite 9s ease-in-out;
+  }
+  .vertical-animation {
+    animation: App-logo-vertical-movement infinite 5s ease-in-out;
+  }
+}
+
+@keyframes App-logo-horizontal-movement {
+  0% {
+    transform: translateX(34px);
+  }
+  22% {
+    transform: translateX(-40px);
+  }
+  55% {
+    transform: translateX(55px);
+  }
+  79% {
+    transform: translateX(-40px);
+  }
+  100% {
+    transform: translateX(34px);
+  }
+}
+
+@keyframes App-logo-vertical-movement {
+  0% {
+    transform: translateY(15px);
+  }
+  21% {
+    transform: translateY(-24px);
+  }
+  45% {
+    transform: translateY(29px);
+  }
+  82% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(15px);
+  }
+}

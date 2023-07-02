@@ -66,7 +66,7 @@ module.exports = io => {
       function handleChangeGameDataEvent(gameData) {
         Utils.tryCatch(() => {
           r.changeGameData(gameData)
-          console.log(`player: ${name} changed game data to ${gameName}`)
+          console.log(`player: ${name} changed game data`)
         },
         e => {
           sendMessage('self', 'Oops, something wrong occurred on the server.', 'error')

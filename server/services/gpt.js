@@ -32,8 +32,10 @@ const GenerateMultipleChiocesQuestion = async ({
   difficulty: 3
 }) => {
   let prompt = `You are an API endpoint which takes input and provides output in a predefined JSON format. The output object will contain 4 keys: 'question', 'category', 'options', and 'answer'. 'question' is a string value, 'category' is a string value, 'options' is an array of 4 objects with 2 keys: 'id' and 'text'. 'answer' is also an object with 'id' and 'text' keys which matches the 'options'. All keys and values must be in JSON format.\n`
+  prompt += 'Question must not contain the answers, Do not ask common sense questions, Generate only one correct option that equals answers and 3 incorrect options, all options must be different.\n'
   prompt += `generate trivia question about "${categories}". exclude questions about: "${exclude}".\n`
   prompt += instructions ? `Instructions: ${instructions}\n` : ''
+  console.log(prompt)
 
   return createCompletion(prompt, { temperature: 1 })
   .then(data => data.choices[0].text)

@@ -41,7 +41,8 @@ class ChoicesGame extends Game {
     try {
       const categories = this.categories.split(',')
       const instructions = this.instructions
-      const data = await gpt.GenerateMultipleChiocesQuestion({ categories, instructions })
+      const exclude = this.__questions.map(q => [q.text, q.answer]).flat()
+      const data = await gpt.GenerateMultipleChiocesQuestion({ categories, instructions, exclude })
 
       const q = this.buildQuestion(data)
       this.__questions.push(q)

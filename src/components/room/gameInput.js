@@ -11,8 +11,8 @@ const GameInput = ({ onChange }) => {
 
   React.useEffect(() => {
     if (timer.current) clearTimeout(timer.current)
-    timer.current = setTimeout(() => onChange({ categories, instructions }), 1000)
-  }, [categories, instructions])
+    timer.current = setTimeout(() => onChange?.({ categories, instructions }), 1000)
+  }, [categories, instructions, onChange])
 
   return (
     <div>

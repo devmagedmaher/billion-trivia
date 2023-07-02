@@ -28,11 +28,11 @@ const LobbyStage = () => {
     }
   }
 
-  const handleOnInputChange = (data) => {
+  const handleOnInputChange = React.useCallback((data) => {
     if (isAdmin) {
       socket.emit('changeGameData', data)
     }
-  }
+  }, [])
 
   const renderMessage = () => {
     if (isAdmin) {

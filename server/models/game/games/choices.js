@@ -12,6 +12,13 @@ class ChoicesGame extends Game {
   static __isActive = true
 
   /**
+   * default minimum players required to start the game
+   * 
+   * @type {Integer}
+   */
+  min_players = 1
+
+  /**
    * categories of the questions
    * 
    * @type {String}

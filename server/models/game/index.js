@@ -188,20 +188,23 @@ class Game extends SocketIO {
         this.round += 1
         this.resetTimer()
         this.roomMessage(`Round "${this.round}" started!`, 'info')
+        this.isLoading = false
       }
       else {
         // retry again
         this.resetTimer()
-        this.roomMessage(`Round "${this.round}" is loading..!`, 'warning')
         setTimeout(() => { this.nextRound() }, 2000)
-      }
 
+        if (!this.isLoading) {
+          this.roomMessage(`Round "${this.round + 1}" is loading..!`, 'warning')
+          this.isLoading = true
+        }
+      }
     }
     else {
       this.endGame()
       this.roomMessage(`Game "${this.name}" ended!`, 'success')
     }
-    this.moveScoreInRound()
 
     this.refresh(this.__roomInstance.toObject())
   }
@@ -241,6 +244,8 @@ class Game extends SocketIO {
     if (this.counter <= 0) {
       // if answer was displayed
       if (this.answer) {
+        // move round score to total score
+        this.moveScoreInRound()
         // go to next round
         this.nextRound()
       }

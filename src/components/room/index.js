@@ -87,7 +87,6 @@ const Room = (props) => {
    * 
    */
   const handleConnect = () => {
-    console.log('connected')
     setStatus()
     setMessages([])
   }
@@ -97,7 +96,6 @@ const Room = (props) => {
    * 
    */
   const handleDisconnect = () => {
-    console.log('disconnect')
     setStatus('disconnected')
     setStage()
   }
@@ -106,7 +104,6 @@ const Room = (props) => {
    * handle refresh room data
    */
   const handleRoomRefreshData = data => {
-    console.log('refreshed data', data)
     setData(currentData => ({ ...currentData, ...data }))
   }
 
@@ -150,32 +147,8 @@ const Room = (props) => {
    * 
    */
   const handleRceiveMessage = message => {
-    console.log(message)
     setMessages(messages => [ message, ...messages ])
   }
-
-  // /**
-  //  * handle game started
-  //  * 
-  //  */
-  // const handleGameStarted = () => {
-  //   if (stageRef.current === 'lobby') {
-  //     console.log('game started')
-  //     setStage('game')
-  //   }
-  // }
-
-  // /**
-  //  * handle game paused
-  //  * 
-  //  */
-  // const handleGamePaused = () => {
-  //   if (stageRef.current === 'game') {
-  //     console.log('game paused')
-  //     setStage('lobby')
-  //   }
-  // }
-
 
   /**
    * render room stages

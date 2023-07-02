@@ -22,7 +22,7 @@ module.exports = io => {
 
       // join player to room
       const p = r.joinPlayer(id, name, { socket })
-
+      console.log(`player: ${name} is joined room: ${room}`)
 
       /**
        * EnterGame: handle player enter game
@@ -30,14 +30,14 @@ module.exports = io => {
        */
       function handleEnterGameEvent() {
         Utils.tryCatch(() => {
-          console.log(`player: ${name} entered game in room: ${room}`)
           // enter player to the room's game
           r.enterPlayer(id)
+          console.log(`player: ${name} entered game in room: ${room}`)
         },
         e => {
-          console.error('[ERROR][SOCKET]', e)
           sendMessage('self', 'Oops, something wrong occurred on the server.', 'error')
           socket.disconnect()
+          console.error('[ERROR][SOCKET]', e)
         })
       }
 
@@ -48,13 +48,13 @@ module.exports = io => {
        */
       function handleChangeGameEvent(gameName) {
         Utils.tryCatch(() => {
-          console.log(`player: ${name} changed game to ${gameName}`)
           r.changeGame(gameName)
+          console.log(`player: ${name} changed game to ${gameName}`)
         },
         e => {
-          console.error('[ERROR][SOCKET]', e)
           sendMessage('self', 'Oops, something wrong occurred on the server.', 'error')
           socket.disconnect()
+          console.error('[ERROR][SOCKET]', e)
         })
       }
 
@@ -65,13 +65,13 @@ module.exports = io => {
        */
       function handleChangeGameDataEvent(gameData) {
         Utils.tryCatch(() => {
-          console.log(`player: ${name} changed game data`)
           r.changeGameData(gameData)
+          console.log(`player: ${name} changed game data to ${gameName}`)
         },
         e => {
-          console.error('[ERROR][SOCKET]', e)
           sendMessage('self', 'Oops, something wrong occurred on the server.', 'error')
           socket.disconnect()
+          console.error('[ERROR][SOCKET]', e)
         })
       }
 
@@ -81,13 +81,13 @@ module.exports = io => {
        */
       function handleStartGameEvent() {
         Utils.tryCatch(() => {
-          console.log(`player: ${name} started game ${r.game.name}`)
           r.game.start()
+          console.log(`player: ${name} started game ${r.game.name}`)
         },
         e => {
-          console.error('[ERROR][SOCKET]', e)
           sendMessage('self', 'Oops, something wrong occurred on the server.', 'error')
           socket.disconnect()
+          console.error('[ERROR][SOCKET]', e)
         })
       }
 
@@ -100,9 +100,9 @@ module.exports = io => {
           r.submitPlayerAnswer(id, answer)
         },
         e => {
-          console.error('[ERROR][SOCKET]', e)
           sendMessage('self', 'Oops, something wrong occurred on the server.', 'error')
           socket.disconnect()
+          console.error('[ERROR][SOCKET]', e)
         })
       }
 
@@ -112,13 +112,13 @@ module.exports = io => {
        */
       function handleDisconnectEvent() {
         Utils.tryCatch(() => {
-          console.log(`player: ${name} is disconnected from room: ${room}`)
           r.disconnectPlayer(id)
+          console.log(`player: ${name} is disconnected from room: ${room}`)
         },
         e => {
-          console.error('[ERROR][SOCKET]', e)
           sendMessage('self', 'Oops, something wrong occurred on the server.', 'error')
           socket.disconnect()
+          console.error('[ERROR][SOCKET]', e)
         })
       }
       

@@ -48,7 +48,6 @@ const Game = (props) => {
    * 
    */
   React.useEffect(() => {
-    console.log('socket established', socket)
     if (socket) {
       // connect to socket server
       setStatus('loading')
@@ -63,7 +62,6 @@ const Game = (props) => {
       socket.on('gamePaused', handleGamePaused)
   
       return () => {
-        console.log('disconnect', socket)
         socket.disconnect()
         socket.off('connect')
         socket.off('disconnect')
@@ -82,7 +80,6 @@ const Game = (props) => {
    * 
    */
   const handleConnect = () => {
-    console.log('connected')
     setStatus()
     setMessages([])
   }
@@ -92,7 +89,6 @@ const Game = (props) => {
    * 
    */
   const handleDisconnect = () => {
-    console.log('disconnect')
     setStatus('disconnected')
     setStage()
   }
@@ -101,8 +97,6 @@ const Game = (props) => {
    * handle refresh game data
    */
   const handleGameRefresh = data => {
-    console.log('refreshed data', data)
-
     // set admin flag
     if (data.players[0]) {
       data.players[0].isAdmin = true
@@ -139,7 +133,6 @@ const Game = (props) => {
    * 
    */
   const handleRceiveMessage = message => {
-    console.log(message)
     setMessages(messages => [ message, ...messages ])
   }
 
@@ -149,7 +142,6 @@ const Game = (props) => {
    */
   const handleGameStarted = () => {
     if (stageRef.current === 'lobby') {
-      console.log('game started')
       setStage('game')
     }
   }
@@ -160,7 +152,6 @@ const Game = (props) => {
    */
   const handleGamePaused = () => {
     if (stageRef.current === 'game') {
-      console.log('game paused')
       setStage('lobby')
     }
   }

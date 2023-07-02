@@ -5,14 +5,14 @@ import { useRoom } from '.'
 const GameInput = ({ onChange }) => {
   const { data: room } = useRoom()
   const { game } = room
-  const [categories, setCategories] = React.useState(game.categories)
-  const [instructions, setInstructions] = React.useState(game.instructions)
+  const [categories, setCategories] = React.useState(() => game.categories)
+  const [instructions, setInstructions] = React.useState(() => game.instructions)
   const timer = React.useRef()
 
   React.useEffect(() => {
     if (timer.current) clearTimeout(timer.current)
     timer.current = setTimeout(() => onChange?.({ categories, instructions }), 1000)
-  }, [categories, instructions, onChange])
+  }, [categories, instructions])
 
   return (
     <div>

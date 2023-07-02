@@ -32,7 +32,6 @@ const FullScreenButton = () => {
       document.exitFullscreen()
     }
     else {
-      console.log('going full screen')
       document.body.requestFullscreen()
     }
   }

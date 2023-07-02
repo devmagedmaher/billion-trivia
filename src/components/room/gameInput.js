@@ -1,9 +1,12 @@
 import React from 'react'
 import Input from '../input'
+import { useRoom } from '.'
 
 const GameInput = ({ onChange }) => {
-  const [categories, setCategories] = React.useState('')
-  const [instructions, setInstructions] = React.useState('')
+  const { data: room } = useRoom()
+  const { game } = room
+  const [categories, setCategories] = React.useState(game.categories)
+  const [instructions, setInstructions] = React.useState(game.instructions)
   const timer = React.useRef()
 
   React.useEffect(() => {
@@ -18,12 +21,15 @@ const GameInput = ({ onChange }) => {
         value={categories}
         label="Categories"
         onChange={setCategories}
+        multiline
+        mb="sm"
       />
       <Input
         name="instructions"
         value={instructions}
         label="Instructions"
         onChange={setInstructions}
+        multiline
       />
     </div>
   )

@@ -1,5 +1,8 @@
 import React from 'react'
-import { Input as MantineInput } from '@mantine/core'
+import {
+  Input as MantineInput,
+  Textarea as MantineTextarea
+} from '@mantine/core'
 
 const Input = ({
   name,
@@ -7,6 +10,7 @@ const Input = ({
   value,
   error,
   size,
+  multiline,
   onChange,
   onEnter,
 
@@ -20,7 +24,7 @@ const Input = ({
 
   const handleOnKeyDown = e => {
     if (e.keyCode === 13) {
-      onEnter()
+      onEnter?.()
     }
   }
 
@@ -41,17 +45,31 @@ const Input = ({
       size={size}
       {...wrapperProps}
     >
-      <MantineInput
-        ref={inputRef}
-        name={name}
-        placeholder={label}
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        invalid={error}
-        size={size}
-        onKeyDown={handleOnKeyDown}
-        {...inputProps}
-      />
+      {multiline ? (
+        <MantineTextarea
+          ref={inputRef}
+          name={name}
+          placeholder={label}
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          invalid={error}
+          size={size}
+          onKeyDown={handleOnKeyDown}
+          {...inputProps}
+        />
+      ) : (
+        <MantineInput
+          ref={inputRef}
+          name={name}
+          placeholder={label}
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          invalid={error}
+          size={size}
+          onKeyDown={handleOnKeyDown}
+          {...inputProps}
+        />
+      )}
     </MantineInput.Wrapper>
 
   )

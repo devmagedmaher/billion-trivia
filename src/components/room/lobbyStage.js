@@ -15,6 +15,7 @@ import GameInput from './gameInput'
 const LobbyStage = () => {
   const theme = useMantineTheme()
   const sm = useMediaQuery(`(max-width: ${theme.breakpoints.sm}px)`)
+  const timer = React.useRef()
   const { data: room, socket, isAdmin } = useRoom()
   const { game } = room
 
@@ -29,9 +30,15 @@ const LobbyStage = () => {
   }
 
   const handleOnInputChange = React.useCallback((data) => {
-    if (isAdmin) {
-      socket.emit('changeGameData', data)
+    if (timer.current) {
+      clearTimeout(timer.current)
     }
+
+    timer.current = setTimeout(() => {
+      if (isAdmin) {
+        socket.emit('changeGameData', data)
+      }
+    }, 500)
   }, [])
 
   const renderMessage = () => {

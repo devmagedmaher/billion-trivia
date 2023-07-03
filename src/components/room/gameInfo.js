@@ -16,11 +16,7 @@ const GameInfo = () => {
           </Box>
           <Group spacing='xs'>
             <Title order={6}>Categories:</Title>
-            <Text size='sm'>{game.categories}</Text>
-          </Group>
-          <Group spacing='xs'>
-            <Title order={6}>Instructions:</Title>
-            <Text size='sm'>{game.instructions}</Text>
+            <Text size='sm'>{game.categories || 'General'}</Text>
           </Group>
         </Stack>
         <Group spacing='xs'>

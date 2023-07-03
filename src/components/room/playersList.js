@@ -1,9 +1,10 @@
 import React from 'react'
 import {
+  Loader,
   Table,
   Text,
 } from '@mantine/core'
-import { IconKey, IconLemon, IconMeat, IconPizza } from '@tabler/icons'
+import { IconKey, IconLemon, IconMeat, IconPizza, IconSquare, IconCheck } from '@tabler/icons'
 import { useRoom } from '.'
 import moment from 'moment'
 
@@ -25,7 +26,7 @@ const PlayersList = ({ inGameOnly }) => {
       <thead>
         <tr>
           <th colSpan={2}>rank</th>
-          <th colSpan={2}>Name</th>
+          <th colSpan={3}>Name</th>
           <th style={{ textAlign: 'center' }}>Round</th>
           <th style={{ textAlign: 'center' }}>Total</th>
         </tr>
@@ -50,7 +51,8 @@ const PlayersList = ({ inGameOnly }) => {
 }
 
 const PlayerRow = ({ player, rank }) => {
-  const { id } = useRoom()
+  const { id, data: room } = useRoom()
+  const { game } = room
 
   const renderRank = () => {
     if (player.isInGame) {
@@ -76,11 +78,11 @@ const PlayerRow = ({ player, rank }) => {
 
   const renderRightnessColor = () => {
     if (player.isInGame) {
-      const { scoreInRound } = player
+      const { scoreInRound, hasLost } = player
   
       return scoreInRound > 0
         ? 'green'
-        : scoreInRound < 0
+        : scoreInRound < 0 || hasLost
           ? 'red'
           : ''
     }
@@ -90,11 +92,11 @@ const PlayerRow = ({ player, rank }) => {
 
   const renderScoreColor = () => {
     if (player.isInGame) {
-      const { score } = player
+      const { score, hasLost } = player
 
       return score > 0
         ? 'green'
-        : score < 0
+        : score < 0 || hasLost
           ? 'red'
           : ''
     }
@@ -105,7 +107,19 @@ const PlayerRow = ({ player, rank }) => {
   const renderName = () => {
     const { name } = player
 
-    return <Text color={renderRightnessColor()}>{name}</Text>
+    return <Text color={renderRightnessColor()}>
+      {name}
+    </Text>
+  }
+
+  const renderAnswering = () => {
+    const { hasAnswered } = player
+
+    if (game.started && !game.answer && !hasAnswered) {
+      return <Loader size="xs" />
+    }
+
+    return null
   }
 
   const renderDeltaScore = () => {
@@ -118,7 +132,7 @@ const PlayerRow = ({ player, rank }) => {
           ? '-'
           : ''
   
-      return <Text color={renderRightnessColor()}>{sign}{Math.abs(score)}</Text>
+      return <Text color={renderRightnessColor()}>{sign}${Math.abs(score)}</Text>
     }
 
     return null
@@ -136,6 +150,9 @@ const PlayerRow = ({ player, rank }) => {
         {renderName()}
       </td>
       <td>
+        {renderAnswering()}
+      </td>
+      <td>
         {player.isAdmin ? <IconKey size={16} /> : null}
       </td>
       <td align='center'>
@@ -143,7 +160,7 @@ const PlayerRow = ({ player, rank }) => {
       </td>
       <td align='center'>
         <Text color={renderScoreColor()}>
-          {player.score}
+          ${player.score}
         </Text>
       </td>
     </tr>

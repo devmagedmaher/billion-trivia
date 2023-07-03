@@ -197,7 +197,7 @@ class Room extends SocketIO {
    * 
    */
   resetPlayerGameData() {
-    this.players.forEach(player => player.setScore(0).clearAnswer())
+    this.players.forEach(player => player.setScore(0).clearAnswer().clearLost())
   }
 
   /**
@@ -366,11 +366,12 @@ class Room extends SocketIO {
    * @return {Game}
    */
   changeGameData(data) {
-    const { categories = '', instructions } = data || {}
+    const { categories = '' } = data || {}
 
     // update game info
-    this.game.categories = categories || 'General Questions'
-    this.game.instructions = instructions
+    for (let key in data) {
+      this.game[key] = data[key]
+    }
 
     this.refresh(this.toObject())
 

@@ -74,6 +74,13 @@ class Player extends SocketIO {
   hasAnswered = false
 
   /**
+   * did player lost the game?
+   * 
+   * @type {Boolean}
+   */
+  hasLost = false
+
+  /**
    * Init player
    * 
    */
@@ -168,12 +175,30 @@ class Player extends SocketIO {
   /**
    * set has player answered flag
    * 
-   * @param {Boolean} hasAnswered score of current round
+   * @param {Boolean} hasAnswered
    * 
    * @returns {Player}
    */
   setHasAnswered(hasAnswered) {
     this.hasAnswered = hasAnswered
+    return this
+  }
+
+  /**
+   * set has player lost the game
+   * 
+   * @param {Boolean} hasLost
+   * 
+   * @returns {Player}
+   */
+  setHasLost(hasLost) {
+    this.hasLost = hasLost
+
+    if (hasLost === true) {
+      this.selfMessage('You have lost the game!!', 'error')
+      this.castMessage(`${this.name} has lost the game.`, 'error')
+    }
+
     return this
   }
 
@@ -186,6 +211,16 @@ class Player extends SocketIO {
     this.__answer = null
     this.__answerOrder = null
     this.hasAnswered = false
+    return this
+  }
+
+  /**
+   * clear lost state
+   * 
+   * @returns {Player}
+   */
+  clearLost() {
+    this.hasLost = false
     return this
   }
 

@@ -8,8 +8,7 @@ import Sidebar from './sidebar'
 import Messages from './messages'
 import { Center, Grid, Stack } from '@mantine/core'
 import FullScreenButton from '../fullScreenButton'
-
-const SOCKET_URL = process.env.NODE_ENV === 'production' ? '/' : 'http://192.168.1.97:3004/'
+import { SOCKET_URL } from '../../config'
 
 const RoomContext = React.createContext({
   setStage: () => false,

@@ -6,13 +6,10 @@ const GameInput = ({ onChange }) => {
   const { data: room } = useRoom()
   const { game } = room
   const [categories, setCategories] = React.useState(() => game.categories)
-  const [instructions, setInstructions] = React.useState(() => game.instructions)
-  const timer = React.useRef()
 
   React.useEffect(() => {
-    if (timer.current) clearTimeout(timer.current)
-    timer.current = setTimeout(() => onChange?.({ categories, instructions }), 1000)
-  }, [categories, instructions, onChange])
+    onChange?.({ categories })
+  }, [categories, onChange])
 
   return (
     <div>
@@ -20,16 +17,11 @@ const GameInput = ({ onChange }) => {
         name="categories"
         value={categories}
         label="Categories"
+        placeholder="History, Geography, TV Shows, Traditions, Unusual Facts, Arabic Language, African Culture"
         onChange={setCategories}
+        showLabel
         multiline
         mb="sm"
-      />
-      <Input
-        name="instructions"
-        value={instructions}
-        label="Instructions"
-        onChange={setInstructions}
-        multiline
       />
     </div>
   )

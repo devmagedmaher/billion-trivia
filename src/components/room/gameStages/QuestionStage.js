@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRoom } from '..'
-import { Center, createStyles, Image, Radio, Stack, Title } from '@mantine/core'
+import { Center, Chip, createStyles, Image, Loader, Radio, Stack, Title } from '@mantine/core'
 import Counter from '../../counter'
 import Input from '../../input'
 
@@ -22,11 +22,16 @@ const QuestionStage = () => {
   const { game } = room
   const { question } = game
 
+  if (!question) {
+    return <Loader />
+  }
+
   return (
     <Stack>
       <Center>
         <Counter count={game.counter} withWarning />
       </Center>
+      <Chip variant="filled">{question.category}</Chip>
       <Title order={5}>{question.text}</Title>
       {question.image ? <Image src={question.image} alt={question.text} className={classes.image} /> : null}
       {question.chars ? <Title order={3}>{question.chars.map(c => ` ${c} `).join(' ')}</Title> : null}
@@ -83,7 +88,7 @@ const RadioOptions = () => {
         <Radio
           value={option.id}
           label={option.text}
-          disabled={me.hasAnswered}
+          disabled={me.hasAnswered || me.hasLost}
         />
       ))}
     </Radio.Group>

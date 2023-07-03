@@ -177,33 +177,39 @@ class Game extends SocketIO {
    * 
    */
   nextRound() {
-    if (this.round < this.rounds) {
+    const players = this.__roomInstance.getInGamePlayers()
+    if (players.every(p => p.hasLost)) {
+      this.endGame()
+      this.roomMessage(`All players have lost!`, 'error')
+    }
+    else if (this.round >= this.rounds) {
+      this.endGame()
+      this.roomMessage(`Game has ended!`, 'success')
+    }
+    else {
       this.__question = this.__questions[this.round]
-
+  
       if (this.__question) {
         const { answer, ...q } = this.__question
         this.question = q
         this.answer = null
         
         this.round += 1
-        this.resetTimer()
+        const time = this.timers ? this.timers[this.round] : 30
+        this.resetTimer(time)
         this.roomMessage(`Round "${this.round}" started!`, 'info')
         this.isLoading = false
       }
       else {
-        // retry again
+        // recheck again
         this.resetTimer()
         setTimeout(() => { this.nextRound() }, 2000)
-
+  
         if (!this.isLoading) {
           this.roomMessage(`Round "${this.round + 1}" is loading..!`, 'warning')
           this.isLoading = true
         }
       }
-    }
-    else {
-      this.endGame()
-      this.roomMessage(`Game "${this.name}" ended!`, 'success')
     }
 
     this.refresh(this.__roomInstance.toObject())
@@ -278,7 +284,7 @@ class Game extends SocketIO {
    * @param {Integer} from count down starting from
    * 
    */
-  resetTimer(from = process.env.ROUND_COUNTER_FROM) {
+  resetTimer(from = 30) {
     this.counter = from
     this.clearTimer()
     this.__timer = setInterval(this.handleTimer.bind(this), 1000)

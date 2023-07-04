@@ -201,6 +201,14 @@ class Room extends SocketIO {
   }
 
   /**
+   * clear players answers
+   * 
+   */
+  clearAnswers() {
+    this.players.forEach(player => player.clearAnswer())
+  }
+
+  /**
    * Join player to this room
    * 
    * @param {String} id 
@@ -394,7 +402,7 @@ class Room extends SocketIO {
     const player = this.getPlayer(id)
 
     if (player) {
-      if (player.isInGame) {
+      if (player.isInGame || !player.hasLost) {
         const order = this.getAnsweredPlayers().length
         player.submitAnswer(answer, order)        
 
@@ -407,7 +415,7 @@ class Room extends SocketIO {
     }
 
     // if all players had submitted their answers
-    if (this.getInGamePlayers().every(p => p.hasAnswered)) {
+    if (this.getInGamePlayers().filter(p => !p.hasLost).every(p => p.hasAnswered)) {
       // show the answer
       this.game.showAnswer()
     }

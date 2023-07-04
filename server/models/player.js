@@ -57,14 +57,14 @@ class Player extends SocketIO {
    * 
    * @type {any}
    */
-  __answer
+  answer
 
   /**
    * Order of answering to other players
    * 
    * @type {Integer}
    */
-  __answerOrder = 0
+  answerOrder = 0
 
   /**
    * did player answer the question?
@@ -208,8 +208,8 @@ class Player extends SocketIO {
    * @returns {Player}
    */
   clearAnswer() {
-    this.__answer = null
-    this.__answerOrder = null
+    this.answer = null
+    this.answerOrder = null
     this.hasAnswered = false
     return this
   }
@@ -229,8 +229,8 @@ class Player extends SocketIO {
    * 
    */
   submitAnswer(answer, order) {
-    this.__answer = answer
-    this.__answerOrder = order
+    this.answer = answer
+    this.answerOrder = order
     this.hasAnswered = true
   }
 

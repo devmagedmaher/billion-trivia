@@ -169,7 +169,9 @@ class Game extends SocketIO {
     this.started = false
     this.isLoading = false
     this.counter = 0
+    this.__questions = []
     this.clearTimer()
+    this.onGameEnds?.()
   }
 
   /**
@@ -193,6 +195,8 @@ class Game extends SocketIO {
         const { answer, ...q } = this.__question
         this.question = q
         this.answer = null
+        // clear players answer
+        this.__roomInstance.clearAnswers()
         
         this.round += 1
         const time = this.timers ? this.timers[this.round] : 30

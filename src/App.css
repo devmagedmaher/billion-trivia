@@ -54,3 +54,56 @@ body {
     transform: translateY(15px);
   }
 }
+
+
+.question-box {
+  position: relative;
+}
+.question-box h5 {
+  position: relative;
+  background-color: #000000;
+  border: 2px solid #00aaaa;
+  padding: 6px 30px;
+  border-radius: 50px;
+  margin: 0 50px;
+}
+.question-box::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #00aaaa;
+  top: calc(50% - 1px);
+}
+
+.answer-box {
+  position: relative;
+}
+.answer-box > div {
+  position: relative;
+  background-color: #000000;
+  border: 2px solid #00aaaa;
+  padding: 6px 30px;
+  border-radius: 50px;
+  margin: 0 50px;
+}
+.answer-box::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #00aaaa;
+  top: calc(50% - 1px);
+}
+.answer-box.active > div {
+  background-color: #b50;
+  color: #000;
+}
+.answer-box.wrong > div {
+  background-color: #900;
+  color: #000;
+}
+.answer-box.correct > div {
+  background-color: #090;
+  color: #000;
+}

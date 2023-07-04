@@ -12,9 +12,9 @@ const GameStages = () => {
     if (game.isLoading) {
       return <Loader />
     }
-    else if (game.answer) {
-      return <AnswerStage />
-    }
+    // else if (game.answer) {
+    //   return <AnswerStage />
+    // }
     else {
       return <QuestionStage />
     }

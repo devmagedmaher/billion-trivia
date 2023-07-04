@@ -30,14 +30,14 @@ class ChoicesGame extends Game {
    * 
    * @type {Array}
    */
-  scores = [0, 1, 10, 100, 1000, 10000, 50000, 100000, 250000, 500000, 750000, 1500000, 3000000, 6000000, 12000000, 25000000, 50000000, 100000000, 200000000, 500000000, 1000000000]
+  scores = [, 1, 10, 100, 1000, 10000, 50000, 100000, 250000, 500000, 750000, 1500000, 3000000, 6000000, 12000000, 25000000, 50000000, 100000000, 200000000, 500000000, 1000000000]
 
   /**
    * timer of each round
    * 
    * @type {Array}
    */
-  timers = [30, 30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10, 9, 8, 7, 6, 6, 5, 5, 5, 5]
+  timers = [, 30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10, 9, 8, 7, 6, 6, 5, 5, 5, 5]
 
   /**
    * categories of the questions
@@ -79,18 +79,21 @@ class ChoicesGame extends Game {
       const excludes = this.__questions.map(q => [q.text, q.answer.text]).flat()
       const { messages, result } = await gpt.GenerateRoundQuestion(this.__messages, this.__questions.length + 1, category, excludes)
 
+      if (this.started === false) {
+        return
+      }
+      
       const q = this.buildQuestion(result)
       this.__questions.push(q)
 
-      this.__messages = messages
-
-      console.log(this.__messages)
+      // this.__messages = messages
+      // console.log(this.__messages)
       console.log(this.__questions)
       return this.__questions
     }
     catch(e) {
       console.log('Failed to generate question!')
-      console.log(e.toString())
+      console.log(e)
       return false
     }
   }
@@ -143,7 +146,7 @@ class ChoicesGame extends Game {
     // loop and calculate
     .forEach((player, _) => {
       // if he answered incorrect
-      if (String(player.__answer) !== String(this.answer.id) || !player.hasAnswered) {
+      if (String(player.answer) !== String(this.answer.id) || !player.hasAnswered) {
         // mark player as loser
         player.setHasLost(true)
       }
@@ -153,10 +156,16 @@ class ChoicesGame extends Game {
         // add positive score points
         player.setScoreInRound(this.scores[this.round] - player.score || 1)
       }
-
-      // clear player answer
-      player.clearAnswer()
     })
+  }
+
+  /**
+   * restet game state
+   * 
+   */
+  onGameEnds() {
+    console.log('Clear Messages...')
+    this.__messages = []
   }
 }
 

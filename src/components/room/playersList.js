@@ -113,10 +113,10 @@ const PlayerRow = ({ player, rank }) => {
   }
 
   const renderAnswering = () => {
-    const { hasAnswered } = player
+    const { hasAnswered, hasLost } = player
 
-    if (game.started && !game.answer && !hasAnswered) {
-      return <Loader size="xs" />
+    if (game.started && !game.answer && !hasAnswered && !hasLost) {
+      return <Loader size="xs" variant="dots" />
     }
 
     return null

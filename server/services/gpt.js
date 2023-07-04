@@ -60,26 +60,30 @@ const GenerateMultipleChiocesQuestionLegacy = async ({
   })
 }
 
-const GenerateRoundQuestion = async (messages, round = 1, category = '', excludes = []) => {
+const GenerateRoundQuestion = async (_, round = 1, category = '', excludes = []) => {
   let system = `Act like an API endpoint which takes input and provides output in a predefined JSON format. The output object will contain 4 keys: 'question', 'category', 'options', and 'answer'. 'question' is a string value, 'category' is a string value, 'options' is an array of 4 objects with 2 keys: 'id' and 'text'. 'answer' is also an object with 'id' and 'text' keys which matches the 'options'. All keys and values must be in JSON format. Question and answer must be verfied and legit information, Question must not contain the answers, Do not ask common sense questions, Options must have only one correct answer and 3 different wrong answers.`
   let message = (round, category) =>  `For a trivia game of 20 rounds. this is how player awarded each round: $1, $10, $100, $1,000, $10,000, $50,000, $100,000, $250,000, $500,000, $750,000, $1,500,000, $3,000,000, $6,000,000, $12,000,000, $25,000,000, $50,000,000, $100,000,000, $200,000,000, $500,000,000, $1,000,000,000, And each round the difficulty of the question increases according to the round award.
   For round ${round}, generate question in category: "${category}". Exclude these topics: "${excludes}"`
+  const messages = [
+    { role: 'system', content: system },
+    { role: 'user', content: message(round, category) }
+  ]
 
-  if (round <= 1) {
-    messages.unshift(
-      { role: 'system', content: system },
-      { role: 'user', content: message(round, category) }
-    )
-  }
-  else {
-    messages.push({ role: 'user', content: message(round, category) })
-  }
+  // if (round <= 1) {
+  //   messages.unshift(
+  //     { role: 'system', content: system },
+  //     { role: 'user', content: message(round, category) }
+  //   )
+  // }
+  // else {
+  //   messages.push({ role: 'user', content: message(round, category) })
+  // }
 
-  // console.log(messages)
+  console.log(messages)
   return createChatCompletion(messages, { temperature: 0.7 })
   .then(data => data.choices[0].message)
   .then(message => {
-    // messages.push(message)
+    messages.push(message)
     const result = JSON.parse(message.content)
     return { messages, result }
   })

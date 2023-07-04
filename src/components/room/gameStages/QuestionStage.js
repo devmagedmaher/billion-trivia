@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRoom } from '..'
-import { Center, Chip, createStyles, Image, Loader, Radio, Stack, Title } from '@mantine/core'
+import { Box, Center, Chip, createStyles, Grid, Image, Loader, Radio, Stack, Title } from '@mantine/core'
 import Counter from '../../counter'
 import Input from '../../input'
 
@@ -31,8 +31,12 @@ const QuestionStage = () => {
       <Center>
         <Counter count={game.counter} withWarning />
       </Center>
-      <Chip variant="filled">{question.category}</Chip>
-      <Title order={5}>{question.text}</Title>
+      <Center>
+        <Chip variant="filled">{question.category}</Chip>
+      </Center>
+      <Box className="question-box">
+        <Title order={5}>{question.text}</Title>
+      </Box>
       {question.image ? <Image src={question.image} alt={question.text} className={classes.image} /> : null}
       {question.chars ? <Title order={3}>{question.chars.map(c => ` ${c} `).join(' ')}</Title> : null}
       {question.options ? <RadioOptions /> : <TextInput />}
@@ -70,27 +74,59 @@ const TextInput = () => {
 
 const RadioOptions = () => {
   const { data: room, me, socket } = useRoom()
-  const { question } = room.game
+  const { question, answer } = room.game
 
   const handleOnChange = (answer) => {
-    // send answer
+    // send selected answer
     socket.emit('submitAnswer', answer)
+  }
+
+  const getAnswerStyle = (option) => {
+    let className = 'answer-box'
+
+    if (answer) {      
+      if (String(option.id) === String(answer.id)) {
+        className += ' correct'
+      }
+      else {
+        if (me.answer) {
+          if (String(me.answer) === String(option.id)) {
+            className += ' wrong'
+          }
+        }  
+      }
+    }
+    else {
+      if (me.answer) {
+        if (String(me.answer) === String(option.id)) {
+          className += ' active'
+        }
+      }
+    }
+
+    return className
   }
 
   return (
     <Radio.Group
       name="answer"
       onChange={handleOnChange}
+      value={me.answer}
       orientation="vertical"
-      label={`Select your answer:`}
     >
-      {question.options.map(option => (
-        <Radio
-          value={option.id}
-          label={option.text}
-          disabled={me.hasAnswered || me.hasLost}
-        />
-      ))}
+      <Grid gutter="xs" align="center">
+        {question.options.map(option => (
+          <Grid.Col md={6}>
+            <Box className={getAnswerStyle(option)}>
+              <Radio
+                value={option.id}
+                label={option.text}
+                disabled={me.hasAnswered || me.hasLost}
+              />
+            </Box>
+          </Grid.Col>
+        ))}
+      </Grid>
     </Radio.Group>
   )
 }

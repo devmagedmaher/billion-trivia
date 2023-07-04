@@ -38,9 +38,9 @@ const QuestionStage = () => {
       setSound('new_round.mp3')
       setTimeout(() => {
         setSound('question.mp3')
-      }, [3400])
+      }, [4000])
     }
-  }, [answer])
+  }, [answer, me.answer, me.hasLost])
 
   return (
     <Stack>

@@ -226,7 +226,7 @@ class Game extends SocketIO {
   showAnswer() {
     this.answer = this.__question.answer
     this.setPlayersScoreInRound()
-    this.resetTimer(3)
+    this.resetTimer(10)
 
     this.roomMessage(`Round "${this.round}" ended!`, 'success')
     this.refresh(this.__roomInstance.toObject())

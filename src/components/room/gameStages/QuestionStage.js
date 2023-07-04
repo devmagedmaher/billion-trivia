@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRoom } from '..'
-import { Box, Center, Chip, createStyles, Grid, Image, Loader, Radio, Stack, Title } from '@mantine/core'
+import { Box, Center, Chip, createStyles, Grid, Image, Radio, Stack, Title } from '@mantine/core'
 import Counter from '../../counter'
 import Input from '../../input'
 
@@ -18,16 +18,33 @@ const useStyles = createStyles(theme => ({
 
 const QuestionStage = () => {
   const { classes } = useStyles()
-  const { data: room, me, socket } = useRoom()
+  const { data: room, me } = useRoom()
   const { game } = room
-  const { question } = game
+  const { question, answer } = game
+  const [sound, setSound] = useState('question.mp3')
 
-  if (!question) {
-    return <Loader />
-  }
+  useEffect(() => {
+    if (Boolean(answer)) {
+      if (String(me.answer) === String(answer.id)) {
+        setSound('correct_answer.mp3')
+      }
+      else {
+        if (!me.hasLost) {
+          setSound('wrong_answer.mp3')
+        }
+      }
+    }
+    else {
+      setSound('new_round.mp3')
+      setTimeout(() => {
+        setSound('question.mp3')
+      }, [3400])
+    }
+  }, [answer])
 
   return (
     <Stack>
+      <audio src={`/audio/${sound}`} autoPlay />
       <Center>
         <Counter count={game.counter} withWarning />
       </Center>

@@ -51,6 +51,7 @@ class Room extends SocketIO {
     this.name = name
     this.game = new Game()
     this.games = gamesList
+    this.changeGame('choices')
   }
 
   /**

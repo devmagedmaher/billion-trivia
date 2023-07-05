@@ -147,7 +147,8 @@ class ChoicesGame extends Game {
       // if he answered incorrect
       if (String(player.answer) !== String(this.answer.id) || !player.hasAnswered) {
         // mark player as loser
-        player.setHasLost(true)
+        // player.setHasLost(true)
+        player.setScoreInRound(0)
       }
 
       // if he answered correct

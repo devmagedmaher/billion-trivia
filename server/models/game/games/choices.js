@@ -30,7 +30,7 @@ class ChoicesGame extends Game {
    * 
    * @type {Array}
    */
-  scores = [, 1, 10, 100, 1000, 10000, 50000, 100000, 250000, 500000, 750000, 1500000, 3000000, 6000000, 12000000, 25000000, 50000000, 100000000, 200000000, 500000000, 1000000000]
+  scores = [0, 1, 10, 100, 1000, 10000, 50000, 100000, 250000, 500000, 750000, 1500000, 3000000, 6000000, 12000000, 25000000, 50000000, 100000000, 200000000, 500000000, 1000000000]
 
   /**
    * timer of each round
@@ -154,7 +154,7 @@ class ChoicesGame extends Game {
       // if he answered correct
       else {
         // add positive score points
-        player.setScoreInRound(this.scores[this.round] - player.score || 1)
+        player.setScoreInRound(this.scores[this.round] - this.scores[this.round - 1] || 1)
       }
     })
   }

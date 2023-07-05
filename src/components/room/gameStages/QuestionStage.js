@@ -65,7 +65,7 @@ const QuestionStage = () => {
       {question.chars ? <Title order={3}>{question.chars.map(c => ` ${c} `).join(' ')}</Title> : null}
       {question.options ? <RadioOptions /> : <TextInput />}
       <Center>
-        <img src={georgeImage} width="300" height="auto" />
+        <Image src={georgeImage} width={300} height={200} />
       </Center>
     </Stack>
   )

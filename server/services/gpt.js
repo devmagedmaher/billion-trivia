@@ -79,7 +79,7 @@ const GenerateRoundQuestion = async (_, round = 1, category = '', excludes = [])
   //   messages.push({ role: 'user', content: message(round, category) })
   // }
 
-  console.log(messages)
+  // console.log(messages)
   return createChatCompletion(messages, { temperature: 0.7 })
   .then(data => data.choices[0].message)
   .then(message => {

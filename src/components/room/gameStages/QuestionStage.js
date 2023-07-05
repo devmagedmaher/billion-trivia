@@ -137,14 +137,14 @@ const RadioOptions = () => {
   return (
     <Radio.Group
       name="answer"
-      onChange={handleOnChange}
+      // onChange={handleOnChange}
       value={me.answer}
       orientation="vertical"
     >
       <Grid gutter="xs" align="center">
         {question.options.map(option => (
           <Grid.Col md={6}>
-            <Box className={getAnswerStyle(option)}>
+            <Box className={getAnswerStyle(option)} onClick={() => handleOnChange(option.id)}>
               <Radio
                 value={option.id}
                 label={option.text}

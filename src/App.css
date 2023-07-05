@@ -86,6 +86,7 @@ body {
   padding: 6px 30px;
   border-radius: 50px;
   margin: 0 50px;
+  cursor: pointer;
 }
 .answer-box::before {
   content: "";

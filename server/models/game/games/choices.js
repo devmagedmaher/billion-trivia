@@ -87,8 +87,7 @@ class ChoicesGame extends Game {
       this.__questions.push(q)
 
       // this.__messages = messages
-      // console.log(this.__messages)
-      console.log(this.__questions)
+      console.log(q?.text, '\n', q?.answer?.text, '\n')
       return this.__questions
     }
     catch(e) {
@@ -164,7 +163,6 @@ class ChoicesGame extends Game {
    * 
    */
   onGameEnds() {
-    console.log('Clear Messages...')
     this.__messages = []
   }
 }

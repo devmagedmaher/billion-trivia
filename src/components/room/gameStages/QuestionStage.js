@@ -3,6 +3,9 @@ import { useRoom } from '..'
 import { Box, Center, Chip, createStyles, Grid, Image, Radio, Stack, Title } from '@mantine/core'
 import Counter from '../../counter'
 import Input from '../../input'
+import ImageWin from '../../../assets/images/george_correct.jpg'
+import ImageLose from '../../../assets/images/george_lose.jpg'
+import ImageQuestion from '../../../assets/images/george_think.jpg'
 
 const useStyles = createStyles(theme => ({
   
@@ -22,15 +25,18 @@ const QuestionStage = () => {
   const { game } = room
   const { question, answer } = game
   const [sound, setSound] = useState('question.mp3')
+  const [georgeImage, setGeorgeImage] = useState(ImageQuestion)
 
   useEffect(() => {
     if (Boolean(answer)) {
       if (String(me.answer) === String(answer.id)) {
         setSound('correct_answer.mp3')
+        setGeorgeImage(ImageWin)
       }
       else {
         if (!me.hasLost) {
           setSound('wrong_answer.mp3')
+          setGeorgeImage(ImageLose)
         }
       }
     }
@@ -39,6 +45,7 @@ const QuestionStage = () => {
       setTimeout(() => {
         setSound('question.mp3')
       }, [4000])
+      setGeorgeImage(ImageQuestion)
     }
   }, [answer, me.answer, me.hasLost])
 
@@ -57,6 +64,9 @@ const QuestionStage = () => {
       {question.image ? <Image src={question.image} alt={question.text} className={classes.image} /> : null}
       {question.chars ? <Title order={3}>{question.chars.map(c => ` ${c} `).join(' ')}</Title> : null}
       {question.options ? <RadioOptions /> : <TextInput />}
+      <Center>
+        <img src={georgeImage} width="300" height="auto" />
+      </Center>
     </Stack>
   )
 }
